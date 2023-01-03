@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;
 
+@SuppressWarnings("unchecked")
+
 /**
  * Provides an implementation of a hash table.
  * @author Alejandro Baldominos <me@bal.do>

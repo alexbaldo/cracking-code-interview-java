@@ -2,6 +2,8 @@ package collections;
 
 import java.util.Iterator;
 
+@SuppressWarnings("unchecked")
+
 /**
  * Provides an implementation of an array list.
  * @author Alejandro Baldominos <me@bal.do>
