@@ -1,9 +1,9 @@
 package collections;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map.Entry;
 
 @SuppressWarnings("unchecked")
 
