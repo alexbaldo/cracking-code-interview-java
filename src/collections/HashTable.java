@@ -1,6 +1,7 @@
 package collections;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -11,11 +12,12 @@ import java.util.Map.Entry;
  * Provides an implementation of a hash table.
  * @author Alejandro Baldominos <me@bal.do>
  */
-public class HashTable<K, V> {
+public class HashTable<K, V> implements Iterable<K> {
 
     // The underlying array.
     private List<Entry<K, V>>[] arr;
     private int buckets;
+    private int size;
 
     /**
      * Default constructor.
@@ -59,7 +61,10 @@ public class HashTable<K, V> {
         }
 
         // Otherwise, add it to the list.
-        if (!found) list.add(new SimpleEntry<K,V>(key, value));
+        if (!found) {
+            list.add(new SimpleEntry<K,V>(key, value));
+            this.size++;
+        }
     }
 
     /**
@@ -83,6 +88,22 @@ public class HashTable<K, V> {
     }
 
     /**
+     * Returns the size of the table.
+     * @return the size of the table.
+     */
+    public int size () {
+        return this.size;
+    }
+
+    /**
+     * Provides an iterator.
+     */
+    @Override
+    public Iterator<K> iterator () {
+        return new HashTableIterator<K, V>(this.arr, this.size);
+    }
+
+    /**
      * Test case.
      */
     public static void main (String[] args) {
@@ -102,5 +123,48 @@ public class HashTable<K, V> {
 
         // Retrieve a non-existing key, it should be null.
         System.out.println(ht.get("Six"));
+
+        // Iterate through all keys and values.
+        for (String k : ht) {
+            System.out.println(k + " -> " + ht.get(k));
+        }
+    }
+}
+
+/**
+ * Provides an iterator for the hash table, iterating by keys.
+ */
+class HashTableIterator<K, V> implements Iterator<K> {
+
+    List<Entry<K, V>>[] arr;
+    int size;
+    int pos;
+    int currentBucket;
+    int currentItem;
+
+    /**
+     * Initializes the iterator for a hash table.
+     * @param list the hash table to be iterated.
+     */
+    public HashTableIterator (List<Entry<K, V>>[] arr, int size) {
+        this.arr = arr;
+        this.size = size;
+    }
+
+    @Override
+    public boolean hasNext () {
+        return this.pos < this.size;
+    }
+
+    @Override
+    public K next () {
+        this.pos++;
+        List<Entry<K, V>> list = this.arr[this.currentBucket];
+        while (list == null || this.currentItem >= list.size()) {
+            this.currentBucket++;
+            this.currentItem = 0;
+            list = this.arr[this.currentBucket];
+        }
+        return list.get(this.currentItem++).getKey();
     }
 }

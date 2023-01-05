@@ -110,7 +110,7 @@ public class ArrayList<T> implements Iterable<T> {
      */
     @Override
     public Iterator<T> iterator () {
-        return new ArrayListIterator<T>(this);
+        return new ArrayListIterator<T>(this.arr, this.size);
     }
 
     /**
@@ -146,24 +146,26 @@ public class ArrayList<T> implements Iterable<T> {
  */
 class ArrayListIterator<T> implements Iterator<T> {
 
-    ArrayList<T> list;
+    T[] arr;
+    int size;
     int pos;
 
     /**
      * Initializes the iterator for an array list.
      * @param list the array list to be iterated.
      */
-    public ArrayListIterator (ArrayList<T> list) {
-        this.list = list;
+    public ArrayListIterator (T[] arr, int size) {
+        this.arr = arr;
+        this.size = size;
     }
 
     @Override
     public boolean hasNext () {
-        return this.pos < this.list.size();
+        return this.pos < this.size;
     }
 
     @Override
     public T next () {
-        return this.list.get(this.pos++);
+        return this.arr[this.pos++];
     }
 }
